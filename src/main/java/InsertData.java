@@ -3,6 +3,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Insert PrepareStatement JDBC Example
@@ -10,6 +12,8 @@ import java.sql.SQLException;
  *
  */
 public class InsertData {
+	
+	private static final Logger logger = Logger.getGlobal();
     private final String url = "jdbc:postgresql://localhost/myDB";
     private final String user = "postgres";
     private final String password = "1";
@@ -24,6 +28,7 @@ public class InsertData {
     }
 
     public void insertRecord() throws SQLException {
+    	logger.log(Level.INFO, "data has been successfully add");
         System.out.println(INSERT_USERS_SQL);
         // Step 1: Establishing a Connection
         try (Connection connection = DriverManager.getConnection(url, user, password);
@@ -52,6 +57,7 @@ public class InsertData {
         for (Throwable e: ex) {
             if (e instanceof SQLException) {
                 e.printStackTrace(System.err);
+                logger.log(Level.WARNING,"ERROR!");
                 System.err.println("SQLState: " + ((SQLException) e).getSQLState());
                 System.err.println("Error Code: " + ((SQLException) e).getErrorCode());
                 System.err.println("Message: " + e.getMessage());

@@ -4,13 +4,16 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Create Table JDBC Example
  *
  */
 public class CreateTable {
-
+	
+	private static final Logger logger = Logger.getGlobal();
     private final String url = "jdbc:postgresql://localhost/myDB";
     private final String user = "postgres";
     private final String password = "1";
@@ -28,7 +31,7 @@ public class CreateTable {
     }
 
     public void createTable() throws SQLException {
-
+    	logger.log(Level.INFO, "Table has been successfully create");
         System.out.println(createTableSQL);
         // Step 1: Establishing a Connection
         try (Connection connection = DriverManager.getConnection(url, user, password);
@@ -41,6 +44,7 @@ public class CreateTable {
         } catch (SQLException e) {
 
             // print SQL exception information
+        	
             printSQLException(e);
         }
     }
@@ -48,6 +52,7 @@ public class CreateTable {
     public static void printSQLException(SQLException ex) {
         for (Throwable e: ex) {
             if (e instanceof SQLException) {
+            	logger.log(Level.WARNING,"Error:");
                 e.printStackTrace(System.err);
                 System.err.println("SQLState: " + ((SQLException) e).getSQLState());
                 System.err.println("Error Code: " + ((SQLException) e).getErrorCode());
